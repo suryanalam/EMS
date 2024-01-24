@@ -1,0 +1,19 @@
+.input-label{
+    width:100px;
+    font-weight: 600;
+ }
+ 
+.form-input-group{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+
+.input-field{
+    width:250px;
+    border-radius:6px;
+    padding: 0.3rem 0.5rem;
+    border: 2px solid grey;
+    background-color: aliceblue;
+    outline: 0;
+}

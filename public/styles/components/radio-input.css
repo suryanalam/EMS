@@ -1,0 +1,11 @@
+.input-radio-div, .radio-options-div{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+
+.radio-option-wrapper{
+    display: flex;
+    align-items: baseline;
+    gap:0.5rem;
+}

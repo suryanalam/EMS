@@ -1,0 +1,16 @@
+.footer-bg{
+    padding: 1.15rem 2rem;
+    width:100vw;
+    max-width: 100%;
+    text-align: center;
+    background-color: #1d1d1d;
+    color: #f5f5f5;
+    font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-text{
+    color: grey;
+}
