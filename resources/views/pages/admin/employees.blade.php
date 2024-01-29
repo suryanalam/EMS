@@ -1,11 +1,11 @@
 @extends('layout.main')
 
 @push('css')
-    <link rel="stylesheet" href="{{ asset('styles/trash.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/employees.css') }}">
 @endpush
 
 @push('title')
-    <title>Employees Trash</title>
+    <title>Employees</title>
 @endpush
 
 @section('main-section')
@@ -16,14 +16,18 @@
                 <input type="search" name="search" value="{{ $search }}" placeholder="Search name:"
                     class="px-2 py-1 rounded-2 border border-secondary" />
                 <button type="submit" class="btn btn-primary">Search</button>
-                <a class="btn btn-danger" href="{{ url('/trash') }}" role="button">
+                <a class="btn btn-danger" href="{{ url('/') }}" role="button">
                     Reset
                 </a>
             </form>
 
             <div class="btn-actions-div">
-                <a class="btn btn-primary mb-1 px-4" href="{{ url('/') }}" role="button">
-                    View Employees
+                <a class="btn btn-primary mb-1 px-4" href="{{ url('/create') }}" role="button">
+                    ADD
+                </a>
+
+                <a class="btn btn-danger mb-1 px-4" href="{{ url('/trash') }}" role="button">
+                    View Trash
                 </a>
             </div>
         </div>
@@ -31,31 +35,44 @@
         <table class="table table-hover">
             <thead class="table-dark">
                 <tr>
-                    <th class="row-headings">EID</th>
                     <th class="row-headings">Name</th>
-                    <th class="row-headings">Email Id</th>
-                    <th class="row-headings">Contact No</th>
+                    <th class="row-headings">Email</th>
+                    <th class="row-headings">Phone</th>
+                    <th class="row-headings">Role</th>
+                    <th class="row-headings">Department</th>
                     <th class="row-headings">Action</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($employees as $employee)
                     <tr>
-                        <td>{{ $employee->eid }}</td>
                         <td>{{ $employee->name }}</td>
                         <td>{{ $employee->email }}</td>
-                        <td>{{ $employee->contactNo }}</td>
-
+                        <td>{{ $employee->phone }}</td>
                         <td>
-                            <a href="{{ url('/restore') }}/{{ $employee->eid }}">
+                            @if($employee->role)
+                                {{ $employee->role }}
+                            @else
+                                NA
+                            @endif
+                        </td>
+                        <td>
+                            @if ($employee->department)
+                                {{ ucwords($employee->department->dept_name) }}
+                            @else
+                                NA
+                            @endif
+                        </td>
+                        <td>
+                            <a href="{{ url('/edit') }}/{{ $employee->eid }}">
                                 <button class="btn btn-primary px-3">
-                                    Restore
+                                    Edit
                                 </button>
                             </a>
                             &nbsp;
-                            <a href="{{ url('/forceDelete') }}/{{ $employee->eid }}">
+                            <a href="{{ url('/delete') }}/{{ $employee->eid }}">
                                 <button class="btn btn-danger">
-                                    Delete
+                                    Trash
                                 </button>
                             </a>
                         </td>

@@ -1,4 +1,4 @@
-.header-bg{
+/* .header-bg{
     padding: 1rem 2rem;
     position: sticky;
     top:0;
@@ -10,21 +10,23 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-}
+} */
 
 .logo-text{
+    color: goldenrod;
     font-weight: 600;
     font-size: large;
     cursor: pointer;
 }
 
 .header-right-div{
+    color:#f4f4f4;
     display: flex;
     align-items: center;
-    gap:2rem;
+    gap:1rem;
 }
 
-.navbar-ul{
+/* .navbar-ul{
     margin: 0;
     display: flex;
     gap:1rem;
@@ -56,4 +58,4 @@
 
 .logout-btn:active{
     transform: scale(0.9);
-}
+} */

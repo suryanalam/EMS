@@ -8,18 +8,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class User extends Authenticatable
+class Admin extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $primaryKey = "uid";
-    public $table = "users";
+    protected $primaryKey = "admin_id";
+    public $table = "admins";
 
     protected $fillable = [
         'name',
         'email',
         'password',
-        'status'
     ];
 
     protected $hidden = [
@@ -32,3 +31,4 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 }
+

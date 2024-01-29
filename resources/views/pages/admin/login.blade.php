@@ -18,21 +18,21 @@
 
 
     <link rel="stylesheet" href="{{ asset('styles/auth.css') }}">
-    <title>Login</title>
+    <title>Admin Login</title>
 </head>
 
 <body>
     <section class="form-bg">
-
-        @if (session()->has('alert_info'))
-            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                <span>{{ session('alert_info') }}</span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="login-bar">
+            <div class="login-active">
+                <a href="{{ route('admin_login') }}" class="login-bar-link">Admin</a>
             </div>
-        @endif
-
+            <div>
+                <a href="{{ route('login') }}" class="login-bar-link">Employee</a>
+            </div>
+        </div>
         <div class="form-main-div">
-            <form action="{{ url('/login') }}" method="post" class="form-div">
+            <form action="{{ route('admin_login') }}" method="post" class="form-div">
                 @csrf
                 <div class="form-input-div">
                     <label for="email">Email:</label>
@@ -50,10 +50,6 @@
                 </div>
                 <button type="submit" class="join-btn">Login</button>
             </form>
-            <div class="link-div">
-                <span>Don't have an account ? &nbsp; <a href="{{ url('/register') }}">Register</a> </span>
-
-            </div>
         </div>
     </section>
 </body>

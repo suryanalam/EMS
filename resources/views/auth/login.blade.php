@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <!-- Google fonts CDN -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
@@ -15,32 +16,26 @@
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
+
     <link rel="stylesheet" href="{{ asset('styles/auth.css') }}">
-    <title>Register</title>
+    <title>Login</title>
 </head>
 
 <body>
     <section class="form-bg">
-
-        @if (session()->has('alert_info'))
-            <div class="alert alert-warning alert-dismissible fade show text-center" role="alert">
-                <span>{{ session('alert_info') }}</span>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        <div class="login-bar">
+            <div>
+                <a href="{{ route('admin_login') }}" class="login-bar-link">Admin</a>
             </div>
-        @endif
-
+            <div class="login-active">
+                <a href="{{ route('login') }}" class="login-bar-link">Employee</a>
+            </div>
+        </div>
         <div class="form-main-div">
-            <form action="{{ url('/register') }}" method="post" class="form-div">
+            <form action="{{ route('login') }}" method="post" class="form-div">
                 @csrf
                 <div class="form-input-div">
-                    <label for="name">Name: </label>
-                    <input type='text' name='name' class="join-input-fields" value="{{ old('name') }}" />
-                    @error('name')
-                        <span class="text-danger">{{ $message }}</span>
-                    @enderror
-                </div>
-                <div class="form-input-div">
-                    <label for="email">Email: </label>
+                    <label for="email">Email:</label>
                     <input type='email' name='email' class="join-input-fields" value="{{ old('email') }}" />
                     @error('email')
                         <span class="text-danger">{{ $message }}</span>
@@ -53,10 +48,11 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                <button type="submit" class="join-btn">Register</button>
+                <button type="submit" class="join-btn">Login</button>
             </form>
             <div class="link-div">
-                <span>Already have an account ? &nbsp; <a href="{{ url('/login') }}">Login</a> </span>
+                <span><a href="{{ route('forget_password') }}">forget password</a></span><br>
+                <span>Don't have an account ? &nbsp; <a href="{{ route('register') }}">Register</a> </span>
             </div>
         </div>
     </section>

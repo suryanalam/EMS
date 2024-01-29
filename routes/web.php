@@ -3,10 +3,11 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\EmployeesController;
 
-// routes for the session storage:
+// Session Storage Routes:
 Route::get('get-session-data', function(){
     $sessionData = session()->all();
     echo "<pre>";
@@ -18,25 +19,41 @@ Route::get('flush-session-data', function(Request $request){
     return redirect('/get-session-data');
 });
 
-// authentication routes:
-Route::get('/register', function () {
-    return view('pages/auth/register');
+
+// User Authentication Routes:
+Route::get('/register', [AuthController::class,'registerForm'])->name('register');
+Route::post('/register',[AuthController::class,'register'])->name('register');
+Route::get('/email/verify/{token}',[AuthController::class,'verifyEmail'])->name('verify_email');
+
+Route::get('/login', [AuthController::class,'loginForm'])->name('login');
+Route::post('/login',[AuthController::class,'login'])->name('login');
+
+Route::get('/forget-password', [AuthController::class,'forgetPasswordForm'])->name('forget_password');
+Route::post('/forget-password',[AuthController::class,'forgetPassword'])->name('forget_password');
+
+Route::get('/reset-password/{token}', [AuthController::class,'resetPasswordForm'])->name('reset_password');
+Route::post('/reset-password',[AuthController::class,'resetPassword'])->name('reset_password');
+
+
+// User Routes: 
+Route::middleware('auth')->group(function(){
+    Route::get('/employee/dashboard', [EmployeesController::class,'dashboard'] )->name('employee_dashboard');
+
+    Route::get('/employee/profile', [EmployeesController::class,'profile'])->name('employee_profile');
+
+    Route::post('/employee/profile/update', [EmployeesController::class,'profileUpdate'])->name('update_employee_profile');
+
+    Route::get('/logout', [AuthController::class,'logout'])->name('logout');
 });
 
-Route::get('/login', function () {
-    return view('pages/auth/login');
-});
 
-Route::get('/logout',function () {
-    session()->forget(['login_token','username']);
-    return redirect('/login');
-});
+// Admin Routes:
 
-Route::post('/register',[AuthController::class,'register']);
-Route::post('/login',[AuthController::class,'login']);
+Route::get('/admin/login',[AdminController::class,'loginForm'])->name('admin_login');
 
-//application routes:
-Route::middleware(['auth'])->group(function(){
+Route::post('/admin/login',[AdminController::class,'login'])->name('admin_login');
+
+Route::middleware(['admin:admin'])->group(function(){
 
     Route::get('/', [EmployeesController::class,'index']);
 
@@ -55,5 +72,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/restore/{id}',[EmployeesController::class,'restore']);
 
     Route::get('/forceDelete/{id}', [EmployeesController::class,'forceDelete']);
+
+    Route::get('/admin/profile',[AdminController::class,'profile'])->middleware('admin:admin')->name('admin_profile');
+
+    Route::post('/admin/profile/update', [AdminController::class,'update'])->name('update_admin_profile');
+
+    Route::get('/admin/logout',[AdminController::class,'logout'])->name('admin_logout');
 
 });
