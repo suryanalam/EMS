@@ -55,7 +55,12 @@ class EmployeesController extends Controller
     public function edit($id, Request $request){
         $route = "/update/$id";
         $employee = Employee::find($id);
-        return view('pages.admin.employeeForm', compact('route','employee'));
+        if($employee){
+            return view('pages.admin.employeeForm', compact('route','employee'));
+        }else{
+            return redirect('/')->with('error','Employee details not found');
+        }
+
     }
 
     public function update($id, Request $request){
@@ -79,7 +84,7 @@ class EmployeesController extends Controller
     public function delete($id, Request $request){
         $student = Employee::find($id);
         $student->delete();
-        return redirect()->back();
+        return redirect()->back()->with('success','Employee Moved to Trash');
     }
 
     public function trash(Request $request){
@@ -98,13 +103,13 @@ class EmployeesController extends Controller
     public function restore($id, Request $request){
         $employee = Employee::withTrashed()->find($id);
         $employee->restore();
-        return redirect('/');
+        return redirect('/')->with('success','Employee Restored Successfully');
     }
 
     public function forceDelete($id, Request $request){
         $employee = Employee::withTrashed()->find($id);
         $employee->forceDelete();
-        return redirect()->back();
+        return redirect()->back()->with('success','Employee Deleted Successfully');
     }
 
     // For employees: 
@@ -115,7 +120,13 @@ class EmployeesController extends Controller
 
     public function profile(){
         $employee = Auth::guard('web')->user();
-        return view('pages.profile', compact('employee'));
+
+        if($employee){
+            return view('pages.profile', compact('employee'));
+        }else{
+            return redirect()->back()->with('error','Employee details not found');
+        }
+
     }
 
     public function profileUpdate(Request $request){

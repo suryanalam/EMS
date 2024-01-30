@@ -46,7 +46,7 @@ class AuthController extends Controller
 
         $text = "Please check your email for a verification link.";
 
-        return view('pages.alertModal',compact('subject','text'));
+        return redirect('register')->with('success','Check your email to verify the email address');
     }
 
     public function verifyEmail($token){
@@ -54,7 +54,7 @@ class AuthController extends Controller
         $employee = Employee::where('token',$token)->first();
 
         if(!$employee){
-            dd("Invalid Route");
+            return redirect('login')->with('error','Invalid Route');
         }
 
         $employee->status = "verified";
@@ -64,7 +64,7 @@ class AuthController extends Controller
         $subject = "Email Verification";
         $text = "Email has been verified successfully";
 
-        return view('pages.alertModal',compact('subject','text'));
+        return redirect('login')->with('success','Email Verified Successfully');
 
     }
 
@@ -86,7 +86,7 @@ class AuthController extends Controller
         ];
 
         if(Auth::attempt($credentials)){
-            return redirect('/employee/dashboard')->with('success','Logged In successfully');
+            return redirect('/employee/dashboard');
         }else{
             return redirect('/login')->with('error',"Invalid Credentials");
         }
@@ -106,7 +106,7 @@ class AuthController extends Controller
         $employee = Employee::where('email',$request->email)->first();
 
         if(!$employee){
-            return redirect('/login')->with('error',"Invalid Email");
+            return redirect('login')->with('error',"Email doesn't exist");
         }
 
         $token = hash('sha256',time());
@@ -120,8 +120,7 @@ class AuthController extends Controller
 
         \Mail::to($request->email)->send(new AuthEmail($subject, $message));
         
-        $text = "Please check your email to reset password.";
-        return view('pages.alertModal',compact('subject','text'));
+        return redirect('login')->with('success','Please check your email to reset password.');
     }
 
     public function resetPasswordForm($token){
@@ -129,7 +128,7 @@ class AuthController extends Controller
         $employee = Employee::where('token',$token)->first();
 
         if(!$employee){
-            return redirect('/login')->with('error',"Invalid Route");
+            return redirect('login')->with('error',"Invalid Route");
         }
 
         return view('auth.resetPassword', compact('token'));
@@ -145,18 +144,18 @@ class AuthController extends Controller
         $employee = Employee::where('token',$request->token)->first();
 
         if(!$employee){
-            return redirect('/login')->with('error',"Invalid Email");
+            return redirect('login')->with('error',"Invalid Email");
         }
 
         $employee->password = Hash::make($request->new_password);
         $employee->token="";
         $employee->update();
         
-        return redirect('/login')->with('success',"Password updated successfully");
+        return redirect('login')->with('success',"Password updated successfully");
     }
 
     public function logout(){
         Auth::guard('web')->logout();
-        return redirect('login')->with('success','Logged Out successfully');
+        return redirect('login');
     }
 }

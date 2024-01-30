@@ -26,7 +26,7 @@ class AdminController extends Controller
         ];
 
         if(Auth::guard('admin')->attempt($credentials)){
-            return redirect('/')->with('success','Logged In successfully');
+            return redirect('/');
         }else{
             return redirect('/admin/login')->with('error',"Invalid Credentials");
         }
@@ -35,7 +35,7 @@ class AdminController extends Controller
 
     public function logout(){
         Auth::guard('admin')->logout();
-        return redirect('/admin/login')->with('success','Logged Out successfully');
+        return redirect('/admin/login');
     }
 
     public function profile(){
@@ -44,7 +44,7 @@ class AdminController extends Controller
         if($admin){
              return view('pages.admin.profile', compact('admin'));
         }else{
-            return redirect('/admin/profile')->with('error','admin details not found');
+            return redirect()->back()->with('error','Admin details not found');
         }
        
     }
