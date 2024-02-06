@@ -26,5 +26,6 @@ input[type="file"]::file-selector-button {
   }
 
 .bg-container{
-    min-height: 80dvh;
+    height: 80dvh;
+    max-height: 80%;
 }

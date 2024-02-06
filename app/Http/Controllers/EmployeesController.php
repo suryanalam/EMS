@@ -17,9 +17,9 @@ class EmployeesController extends Controller
         $search = $request['search'] ?? "";
 
         if($search === ""){
-            $employees = Employee::with('department')->paginate(10); 
+            $employees = Employee::with('department')->paginate(7); 
         }else{
-            $employees = Employee::with('department')->where('name','LIKE',"%$search%")->paginate(10); 
+            $employees = Employee::with('department')->where('name','LIKE',"%$search%")->paginate(7); 
         }
         
         return view('pages.admin.employees',compact('search','employees'));

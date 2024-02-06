@@ -35,7 +35,7 @@
                     <th class="row-headings">Email</th>
                     <th class="row-headings">Phone</th>
                     <th class="row-headings">Role</th>
-                    <th class="row-headings">Dept Id</th>
+                    <th class="row-headings">Department</th>
                     <th class="row-headings">Action</th>
                 </tr>
             </thead>
@@ -45,8 +45,20 @@
                         <td>{{$employee->name}}</td>
                         <td>{{ $employee->email }}</td>
                         <td>{{ $employee->phone }}</td>
-                        <td>{{$employee->role}}</td>
-                        <td>{{ $employee->deptId }}</td>
+                        <td>
+                            @if($employee->role)
+                                {{ $employee->role }}
+                            @else
+                                NA
+                            @endif
+                        </td>
+                        <td>
+                            @if ($employee->department)
+                                {{ ucwords($employee->department->dept_name) }}
+                            @else
+                                NA
+                            @endif
+                        </td>
 
                         <td>
                             <a href="{{ url('/restore') }}/{{ $employee->eid }}">
